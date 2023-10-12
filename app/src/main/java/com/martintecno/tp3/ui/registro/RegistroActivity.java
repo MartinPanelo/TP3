@@ -43,6 +43,8 @@ public class RegistroActivity extends AppCompatActivity {
                         binding.ETNombre.getText().toString(),
                         binding.ETCorreo.getText().toString(),
                         binding.ETContraseA.getText().toString());
+
+
             }
         });
 

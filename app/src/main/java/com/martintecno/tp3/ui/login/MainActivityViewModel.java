@@ -35,7 +35,7 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public void ingresar(String correo_, String contraseña_) {
 
-        Usuario usuario = ApiClient.getUsuarioPorCorreo(context, correo_, true);
+        Usuario usuario = ApiClient.getUsuarioPorCorreo(context, correo_);
 
         if (usuario != null && usuario.getCorreo().equals(correo_) && usuario.getContraseña().equals(contraseña_)) {
 

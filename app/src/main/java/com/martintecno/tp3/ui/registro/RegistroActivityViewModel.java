@@ -40,6 +40,7 @@ public class RegistroActivityViewModel extends AndroidViewModel {
 
     private MutableLiveData<Bitmap> foto;
 
+
     private String correoF;
 
     public RegistroActivityViewModel(@NonNull Application application) {
@@ -83,6 +84,12 @@ public class RegistroActivityViewModel extends AndroidViewModel {
 
             usuarioM.setValue(ApiClient.getUsuarioPorCorreo(context, correo_));
         }else{
+            File archivo = new File(context.getFilesDir(), "NombreNull" + ".png");
+
+            if (archivo.exists()) {
+                archivo.delete();
+            }
+
             TituloM.setValue("Registrar Usuario");
             BotonM.setValue("Registrar");
         }
@@ -138,6 +145,10 @@ public class RegistroActivityViewModel extends AndroidViewModel {
                 this.cargarSesion(correoF);
 
             } else {
+                File archivo = new File(context.getFilesDir(), "NombreNull" + ".png");
+
+                archivo.renameTo(new File(context.getFilesDir(), dni + ".png"));
+
 
                 this.correoF = ApiClient.registrar(context, usuario).getCorreo();
 
@@ -161,10 +172,6 @@ public class RegistroActivityViewModel extends AndroidViewModel {
         // Log.d("salida",requestCode+"");
 
 
-        if(usuarioActual != null){
-            Toast.makeText(context, "Primero  llene el formulario", Toast.LENGTH_SHORT).show();
-
-        }else {
 
             if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
                 //Recupero los datos provenientes de la camara.
@@ -183,8 +190,12 @@ public class RegistroActivityViewModel extends AndroidViewModel {
 
 
                 //Aquí podría ir la rutina para llamar al servicio que recibe los bytes.
-                File archivo = new File(context.getFilesDir(), usuarioActual.getDni() + ".png");
-                usuarioActual.setFoto(usuarioActual.getDni() + ".png");
+
+                String NombreFoto = (usuarioActual != null) ? usuarioActual.getDni() : "NombreNull";
+
+                File archivo = new File(context.getFilesDir(), NombreFoto + ".png");
+
+
                 if (archivo.exists()) {
                     archivo.delete();
                 }
@@ -201,7 +212,7 @@ public class RegistroActivityViewModel extends AndroidViewModel {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+
         }
     }
 
